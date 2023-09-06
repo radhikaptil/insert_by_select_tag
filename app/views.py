@@ -24,10 +24,6 @@ def insert_webpage(request):
     return render(request,'insert_webpage.html',d)
 
 
-
-
-
-
 def insert_accessrecord(request):
     LWO=Webpage.objects.all()
     d={'LWO':LWO}
@@ -47,3 +43,30 @@ def insert_accessrecord(request):
         return render(request,'display_accessrecord.html',d2)
 
     return render(request,'insert_accessrecord.html',d)
+
+
+
+def select_and_display(request):
+    LTO=Topic.objects.all()
+    d={'LTO':LTO}
+
+    if request.method=='POST':
+        tnlist=request.POST.getlist('tn')
+        print(tnlist)
+
+        QSWO=Webpage.objects.none()
+
+        for tn in tnlist:
+            QSWO=QSWO|Webpage.objects.filter(topic_name=tn)
+
+            d1={'QSWO':QSWO}
+            return render(request,'display_webpage.html',d1)
+
+    return render(request,'select_and_display.html',d)
+
+
+def checkbox(request):
+    LTO=Topic.objects.all()
+    d={'LTO':LTO}
+    
+    return render(request,'checkbox.html',d)
